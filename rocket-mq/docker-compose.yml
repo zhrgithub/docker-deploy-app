@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # ----------------------------
+  # NameServer
+  # ----------------------------
+  namesrv:
+    image: apache/rocketmq:5.1.0
+    container_name: rmq_namesrv
+    ports:
+      - "9876:9876"
+    command: sh mqnamesrv
+    volumes:
+      - ./data/namesrv/logs:/opt/rocketmq/logs
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "9876"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - rmq-net
+
+  # ----------------------------
+  # Broker
+  # ----------------------------
+  broker:
+    image: apache/rocketmq:5.1.0
+    container_name: rmq_broker
+    ports:
+      - "10911:10911"   # broker 内部端口
+      - "10909:10909"   # broker 内部端口
+    environment:
+      NAMESRV_ADDR: "namesrv:9876"
+      BROKER_NAME: "broker-a"
+      BROKER_ID: 0
+      BROKER_CLUSTER_NAME: "DefaultCluster"
+      BROKER_IP1: "127.0.0.1"
+      AUTO_CREATE_TOPIC_ENABLE: "true"
+      BROKER_PERMISSION: 6
+      BROKER_ROLE: "ASYNC_MASTER"
+      FLUSH_DISK_TYPE: "ASYNC_FLUSH"
+    command: sh mqbroker -n namesrv:9876 autoCreateTopicEnable=true
+    volumes:
+      - ./data/broker/logs:/opt/rocketmq/logs
+      - ./data/broker/store:/opt/rocketmq/store
+    depends_on:
+      namesrv:
+        condition: service_healthy
+    networks:
+      - rmq-net
+
+  # ----------------------------
+  # Dashboard
+  # ----------------------------
+  dashboard:
+    image: apacherocketmq/rocketmq-dashboard:latest
+    container_name: rmq_dashboard
+    ports:
+      - "8082:8080"
+    environment:
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=namesrv:9876"
+    depends_on:
+      namesrv:
+        condition: service_healthy
+    networks:
+      - rmq-net
+
+# ----------------------------
+# 自定义网络
+# ----------------------------
+networks:
+  rmq-net:
+    driver: bridge
