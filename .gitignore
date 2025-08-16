@@ -1,0 +1,96 @@
+# Docker 相关文件
+*.log
+logs/
+*.tmp
+.dockerignore
+
+# Docker 数据卷和持久化数据
+data/
+volumes/
+esdata/
+mysql-data/
+elasticsearch-data/
+kibana-data/
+logstash-data/
+rocketmq-data/
+
+# 环境配置文件
+.env
+.env.local
+.env.production
+.env.staging
+*.env
+
+# 备份文件
+*.backup
+*.bak
+*.sql.gz
+*.tar.gz
+
+# 系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vim/
+
+# 临时文件
+*.tmp
+*.temp
+tmp/
+temp/
+
+# 证书和密钥文件
+*.key
+*.pem
+*.crt
+*.p12
+ssl/
+certs/
+
+# Nginx 日志
+access.log
+error.log
+
+# MySQL 相关
+*.sql
+mysql-bin.*
+mysql-slow.log
+ib_logfile*
+
+# Elasticsearch 相关
+nodes/
+*.hprof
+
+# RocketMQ 相关
+store/
+storeCheckpoint
+commitlog/
+consumequeue/
+index/
+
+# 其他日志文件
+*.log.*
+*.out
+nohup.out
+
+# 压缩文件
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+
+# 运行时文件
+*.pid
+*.lock
