@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s   # 每 15 秒采集一次数据
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]  # 采集 Prometheus 自身数据
+  
+  - job_name: "mysql"
+    static_configs:
+      - targets: ["mysql-exporter:9104"]  # 采集 MySQL 数据库指标

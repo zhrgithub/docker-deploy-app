@@ -1,0 +1,64 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "MySQL查询监控",
+    "tags": ["mysql", "sql"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "实时SQL查询速率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
+            "legendFormat": "SELECT查询/秒",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(mysql_global_status_commands_total{command=\"insert\"}[1m])",
+            "legendFormat": "INSERT查询/秒", 
+            "refId": "B"
+          },
+          {
+            "expr": "rate(mysql_global_status_commands_total{command=\"update\"}[1m])",
+            "legendFormat": "UPDATE查询/秒",
+            "refId": "C"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "总查询计数",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "mysql_global_status_commands_total{command=\"select\"}",
+            "legendFormat": "SELECT总数",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "数据库连接数",
+        "type": "stat", 
+        "targets": [
+          {
+            "expr": "mysql_global_status_threads_connected",
+            "legendFormat": "活跃连接",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0}
+      }
+    ],
+    "time": {
+      "from": "now-30m",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}

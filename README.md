@@ -38,6 +38,32 @@
 - **状态**: 配置文件待完善
 - **用途**: 关系型数据库服务
 
+### 5. Nacos 配置中心
+- **版本**: nacos/nacos-server:latest
+- **服务组件**:
+  - **Nacos Server**: 端口 8848，配置管理和服务发现
+  - **集群通信**: 端口 9848, 9849
+- **配置特性**:
+  - 单机模式部署，使用内嵌存储
+  - 开启安全认证（用户名/密码：nacos/nacos）
+  - JVM内存配置：512MB
+  - 数据持久化
+- **用途**: 微服务配置管理和服务注册发现
+- **启动命令**: `cd nacos && docker-compose up -d`
+- **访问地址**: http://localhost:8848/nacos
+
+### 6. 监控系统 (Prometheus + Grafana)
+- **服务组件**:
+  - **Prometheus**: 端口 9091，指标收集和存储
+  - **Grafana**: 端口 3000，数据可视化（admin/admin）
+  - **MySQL Exporter**: 端口 9104，MySQL指标导出
+- **配置特性**:
+  - Grafana预配置MySQL仪表板
+  - Prometheus自定义配置
+  - MySQL监控集成
+- **用途**: 应用性能监控和数据可视化
+- **启动命令**: `cd monitoring && docker-compose up -d`
+
 ## 🚀 快速开始
 
 1. 克隆项目：
@@ -54,6 +80,12 @@ cd elk && docker-compose up -d
 # 启动RocketMQ
 cd rocket-mq && docker-compose up -d
 
+# 启动Nacos配置中心
+cd nacos && docker-compose up -d
+
+# 启动监控系统
+cd monitoring && docker-compose up -d
+
 # 启动Nginx (需要手动运行docker命令)
 docker run -d -p 80:80 -v $(pwd)/nginx/conf/nginx.conf:/etc/nginx/nginx.conf nginx
 ```
@@ -61,6 +93,9 @@ docker run -d -p 80:80 -v $(pwd)/nginx/conf/nginx.conf:/etc/nginx/nginx.conf ngi
 3. 访问服务：
    - Kibana: http://localhost:5601
    - RocketMQ Dashboard: http://localhost:8082
+   - Nacos: http://localhost:8848/nacos (nacos/nacos)
+   - Grafana: http://localhost:3000 (admin/admin)
+   - Prometheus: http://localhost:9091
    - Nginx Demo: http://localhost
 
 ## 📝 Recent Changes
@@ -81,19 +116,31 @@ docker run -d -p 80:80 -v $(pwd)/nginx/conf/nginx.conf:/etc/nginx/nginx.conf ngi
   - 静态资源缓存优化
   - API代理预留接口
 
+- ✅ **Nacos 配置中心**: 微服务配置管理和服务发现
+  - 单机模式部署，使用内嵌存储
+  - 安全认证和数据持久化
+  - Web管理界面
+
+- ✅ **监控系统**: Prometheus + Grafana 监控栈
+  - Prometheus指标收集和存储
+  - Grafana数据可视化和仪表板
+  - MySQL Exporter数据库监控
+
 - 🔄 **MySQL 8**: 配置结构已准备，配置文件待完善
 
 ### 计划更新
 - [ ] 完善MySQL 8配置文件
 - [ ] 添加Redis缓存服务
-- [ ] 集成应用监控服务 (Prometheus + Grafana)
 - [ ] 添加服务编排脚本
+- [ ] 集成服务网格 (Istio)
+- [ ] 添加日志聚合到监控系统
 
 ## 📋 系统要求
 
 - Docker Engine 20.10+
 - Docker Compose 2.0+
-- 可用内存至少 2GB (ELK Stack需要较多内存)
+- 可用内存至少 4GB (ELK Stack + 监控系统需要较多内存)
+- 可用磁盘空间至少 10GB (用于数据持久化)
 
 ## 🤝 贡献
 
