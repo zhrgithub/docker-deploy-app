@@ -1,6 +1,6 @@
 services:
   nacos:
-    image: nacos:2.4.3
+    image: nacos/nacos-server:v2.4.3
     container_name: nacos-standalone
     restart: always
     dns:
@@ -10,6 +10,8 @@ services:
       - MODE=standalone
     ports:
       - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
     cpus: "2"
     mem_limit: 2g
 
