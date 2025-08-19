@@ -14,7 +14,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - /d/tools/docker/elk/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     healthcheck:
@@ -28,7 +28,7 @@ services:
     image: docker.elastic.co/logstash/logstash:8.13.4
     container_name: logstash
     volumes:
-      - /d/tools/docker/elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
       - 5044:5044
       - 9600:9600
