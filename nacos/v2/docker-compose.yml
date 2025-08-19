@@ -1,0 +1,16 @@
+services:
+  nacos:
+    image: nacos:2.4.3
+    container_name: nacos-standalone
+    restart: always
+    dns:
+      - 8.8.8.8
+      - 114.114.114.114
+    environment:
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+    cpus: "2"
+    mem_limit: 2g
+
+
